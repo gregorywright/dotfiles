@@ -1,0 +1,13 @@
+[user]
+	name = Greg Wright
+	email = gwright@real.com
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+
+
+[core]
+	autocrlf = input
+	safecrlf = true
+        excludesfile = ~/.gitignore
