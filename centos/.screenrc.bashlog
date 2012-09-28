@@ -1,0 +1,17 @@
+source $HOME/.screenrc
+
+# now start opening windows
+chdir /home/real/greg-vg/htdocs
+screen -t Emacs 1 emacs
+screen -t Bash 2
+screen -t error.log 3 
+screen -t access.log 4
+screen -t Bash 5
+
+select 3
+stuff "tail -f /var/log/httpd/error_log" 
+
+select 4
+stuff "tail -f /var/log/httpd/access_log" 
+
+select 1
