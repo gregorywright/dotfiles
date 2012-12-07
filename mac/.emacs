@@ -1,6 +1,6 @@
 (message "Loading .emacs really....")
 
-;(global-auto-revert-mode t)
+(global-auto-revert-mode t)
 
 (require 'package)
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
@@ -22,11 +22,16 @@
 ;; uncomment this to do common lisp stuff. Leave it out to do clojure.
 ;;
 
-;(add-to-list 'load-path "~/.emacs_addons/slime-2012-05-24/")  ; your SLIME directory
-;(setq inferior-lisp-program "/usr/local/bin/sbcl") ; your Lisp system
-;(require 'slime)
-;(slime-setup '(slime-fancy))
-;(slime-setup)
+;;(add-to-list 'load-path "~/.emacs_addons/slime-2012-05-24/")  ; your SLIME directory
+(setq inferior-lisp-program "/usr/local/bin/sbcl") ; your Lisp system
+;;(require 'slime)
+;;(slime-setup '(slime-fancy))
+;;(slime-setup)
+
+;;;;;;;; END LISP stuff..........
+
+
+
 
 (global-set-key [(meta =)] 'align-regexp)
 
@@ -272,6 +277,15 @@
 ( global-set-key [f6] 'other-window)
 ( global-set-key [f7] 'bury-or-raise-buffer)
 ( global-set-key [f8] 'my-switch-to-buffer)
+
+
+(global-set-key (kbd "<delete>") 'c-hungry-delete-forward)
+(global-set-key (kbd "<backspace>") 'c-hungry-delete-backwards)
+
+
+
+
+
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -547,6 +561,7 @@ Otherwise, goes to end of buffer."
 
 
 (setq-default ispell-program-name "aspell")
+(add-to-list 'exec-path "/usr/local/bin")
 
 (require 'tramp)
 
@@ -565,6 +580,7 @@ Otherwise, goes to end of buffer."
  '(custom-enabled-themes (quote (wombat)))
  '(custom-safe-themes (quote ("fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" default)))
  '(dabbrev-case-fold-search t)
+ '(default-justification (quote full))
  '(ecb-options-version "2.11")
  '(fill-column 80)
  '(font-lock-maximum-size 99999999)
@@ -583,6 +599,7 @@ Otherwise, goes to end of buffer."
  '(tab-width 8)
  '(tool-bar-mode nil)
  '(toolbar-visible-p nil)
+ '(transient-mark-mode (quote (only . t)))
  '(user-mail-address "gwright@real.com"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
