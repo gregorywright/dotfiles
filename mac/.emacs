@@ -265,8 +265,8 @@
 ( global-set-key [f12]      'bookmark-set          )
 ( global-set-key [(control a)] 'my-home)
 ( global-set-key [(control e)] 'my-end)
-( global-set-key [(control d)] 'c-electric-delete-forward)
-( global-set-key [\d] 'c-electric-delete)
+;( global-set-key [(control d)] 'c-electric-delete-forward)
+;( global-set-key [\d] 'c-electric-delete)
 ( global-set-key [f1] 'compile)
 ( global-set-key [f2] 'next-error)
 ( global-set-key [(control f2)] 'previous-error)
@@ -281,7 +281,7 @@
 
 (global-set-key (kbd "<delete>") 'c-hungry-delete-forward)
 (global-set-key (kbd "<backspace>") 'c-hungry-delete-backwards)
-
+(global-set-key [(control d)]    'c-hungry-delete-forward)
 
 
 
