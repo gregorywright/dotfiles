@@ -1,9 +1,8 @@
 # .bashrc
 export GREP_OPTIONS="--exclude=\*.svn\*"
-
-export HISTFILESIZE=10000
-export HISTSIZ=10000
+export HISTCONTROL=erasedups
 export HISTSIZE=10000
+shopt -s histappend
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then
