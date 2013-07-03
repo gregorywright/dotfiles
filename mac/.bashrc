@@ -1,6 +1,7 @@
-export HISTFILESIZE=5000
-export HISTSIZ=5000
-export HISTSIZE=5000
+export HISTCONTROL=erasedups
+export HISTSIZE=10000
+shopt -s histappend
+
 
 export SVN_EDITOR="emacs -nw"
 alias svndiff='svn diff --diff-cmd diff -x -uw'
