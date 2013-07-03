@@ -1,36 +1,34 @@
-(message "Loading .emacs really....")
-
-(global-auto-revert-mode t)
+ (message "Loading .emacs really....")
 
 (require 'package)
-(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+(add-to-list 'package-archives
+             '("marmalade" . "http://marmalade-repo.org/packages/"))
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/"))
+(add-to-list 'package-archives
+             '("gnu" . "http://elpa.gnu.org/packages/")(global-auto-revert-mode t))
 
 (setq mac-command-modifier 'meta)
-;;
-;; first things first. Add out private elisp directory to the
-;; load path.
-;;
-(setq load-path (cons "~/elisp" load-path))
 
-;(load "~/.emacs_addons/paredit/paredit.el")
-;(load "~/.emacs_addons/haskell-mode/haskell-site-file")
-;(load "~/.emacs_addons/php-mode.el")
-;(add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
-;(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+
+;;(require 'paredit-menu)
+
+
 
 ;;
 ;; uncomment this to do common lisp stuff. Leave it out to do clojure.
 ;;
 
-;;(add-to-list 'load-path "~/.emacs_addons/slime-2012-05-24/")  ; your SLIME directory
 (setq inferior-lisp-program "/usr/local/bin/sbcl") ; your Lisp system
-;;(require 'slime)
-;;(slime-setup '(slime-fancy))
-;;(slime-setup)
-
+(add-to-list 'load-path "/Users/greg/.emacs.d/elpa/slime-20130526.820")
+(add-to-list 'load-path "/Users/greg/.emacs.d/elpa/slime-20130526.820/contrib")
+(add-to-list 'load-path "/Users/greg/.emacs.d/elpa/slime-fuzzy-20100404")
+(require 'slime-autoloads)
+(require 'slime)
+(require 'slime-fuzzy)
+(slime-setup '(slime-fancy))
+;;(slime-setup )
 ;;;;;;;; END LISP stuff..........
-
-
 
 
 (global-set-key [(meta =)] 'align-regexp)
@@ -77,7 +75,7 @@
 	  (cursor-color . "yellow" )
 	  (foreground-color .  "white" )
 	  (background-color . "black" )
-	  ;;	(font . "-*-Courier New-normal-r-*-*-17-102-*-*-c-*-*-ansi-")
+	  ;;(font . "-*-Courier New-normal-r-*-*-17-102-*-*-c-*-*-ansi-")
 	  ))
   ;;(setq initial-frame-alist '((top . 0) (left . 75)))
   (cond 
@@ -265,8 +263,8 @@
 ( global-set-key [f12]      'bookmark-set          )
 ( global-set-key [(control a)] 'my-home)
 ( global-set-key [(control e)] 'my-end)
-;( global-set-key [(control d)] 'c-electric-delete-forward)
-;( global-set-key [\d] 'c-electric-delete)
+;;( global-set-key [(control d)] 'c-electric-delete-forward)
+( global-set-key [\d] 'c-electric-delete)
 ( global-set-key [f1] 'compile)
 ( global-set-key [f2] 'next-error)
 ( global-set-key [(control f2)] 'previous-error)
@@ -279,12 +277,11 @@
 ( global-set-key [f8] 'my-switch-to-buffer)
 
 
-(global-set-key (kbd "<delete>") 'c-hungry-delete-forward)
-(global-set-key (kbd "<backspace>") 'c-hungry-delete-backwards)
-(global-set-key [(control d)]    'c-hungry-delete-forward)
-
-
-
+;;(global-set-key (kbd "<delete>") 'c-hungry-delete-forward)
+;;(global-set-key [(control d)]    'c-hungry-delete-forward)
+;;(global-set-key (kbd "<backspace>") 'c-hungry-delete-backwards)
+;;You need this for search to not drop out when you hit the backspace key
+(define-key isearch-mode-map [backspace] 'isearch-delete-char)
 
 
 
@@ -366,38 +363,6 @@
 (defun gregs-friend-buffer-function (other-buffer)
   t );;This will always return true no matter what other-buffer is
       ;; so that dabrev will always search every buffer.
-
-(defun insert-rahul-file (command)
-  "Insert a group of lines that will open FILE and write to it."
-  (interactive "sFile Name: \n")
-  (message (concat "Insert famous Rahul file code for file " command " ..."))
-  (insert "\n{" )
-  (indent-for-tab-command)
-  (insert (concat "\nFILE* pFP=fopen(\"" command) )
-  (insert "\", \"a+\");" )
-  (indent-for-tab-command)
-  (insert "\nif( pFP )" )
-  (indent-for-tab-command)
-  (insert "\n{" )
-  (indent-for-tab-command)
-  (insert "\nfprintf( pFP, \"\\n\");" )
-  (indent-for-tab-command)
-  (insert "\nfclose( pFP );" )
-  (indent-for-tab-command)
-  (insert "\n}" )
-  (indent-for-tab-command)
-  (insert "\n}" )
-  (indent-for-tab-command)
-  )
-
-(defun gregs-string-rectangle (command)
-  "Set the rectangle then call. String will replace the rectangle on each line."
-  (interactive "sString: \n")
-  (setq pp (point))
-  (setq mm (mark))
-  (kill-rectangle mm pp)
-  (string-rectangle mm pp command)
-  )
 
 (defun gregs-mark-whole-word ()
   "Mark whole word"
@@ -564,8 +529,9 @@ Otherwise, goes to end of buffer."
 (add-to-list 'exec-path "/usr/local/bin")
 
 (require 'tramp)
-
 (setq tramp-default-method "ssh")
+(eval-after-load 'tramp '(setenv "SHELL" "/bin/sh"))
+(setq tramp-verbose 10)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -599,14 +565,13 @@ Otherwise, goes to end of buffer."
  '(tab-width 8)
  '(tool-bar-mode nil)
  '(toolbar-visible-p nil)
- '(transient-mark-mode (quote (only . t)))
  '(user-mail-address "gwright@real.com"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:foreground "white" :background "black"))))
+ '(default ((t (:inherit nil :stipple nil :background "black" :foreground "white" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "apple" :family "Monaco"))))
  '(font-lock-comment-face ((((class color) (background dark)) (:foreground "firebrick"))))
  '(font-lock-function-name-face ((((class color) (background dark)) (:foreground "gold"))))
  '(font-lock-keyword-face ((((class color) (background dark)) (:foreground "purple"))))
@@ -635,3 +600,67 @@ Otherwise, goes to end of buffer."
 
 
 ;;(set-default-font "-apple-profont-medium-r-*-*-*-*-*-*-*-*-*-*")
+
+
+
+;; --- Obj-C switch between header and source ---
+
+(defun objc-in-header-file ()
+  (let* ((filename (buffer-file-name))
+         (extension (car (last (split-string filename "\\.")))))
+    (string= "h" extension)))
+
+(defun objc-jump-to-extension (extension)
+  (let* ((filename (buffer-file-name))
+         (file-components (append (butlast (split-string filename
+                                                         "\\."))
+                                  (list extension))))
+    (find-file (mapconcat 'identity file-components "."))))
+
+;;; Assumes that Header and Source file are in same directory
+(defun objc-jump-between-header-source ()
+  (interactive)
+  (if (objc-in-header-file)
+      (objc-jump-to-extension "m")
+    (objc-jump-to-extension "h")))
+
+(defun objc-mode-customizations ()
+  (define-key objc-mode-map (kbd "C-c t") 'objc-jump-between-header-source))
+
+(add-hook 'objc-mode-hook 'objc-mode-customizations)
+
+
+;;(require 'yasnippet)
+;;(setq yas-trigger-key (kbd "C-c <tab>"))
+;;(yas/initialize)
+
+;; This is where your snippets will lie.
+;;(setq yas/root-directory '("~/.emacs.d/elpa/yasnippet-0.8.0/snippets"))
+;;(mapc 'yas/load-directory yas/root-directory)
+
+
+;; auto-complete
+;;(add-to-list 'load-path "~/.emacs.d/elpa/auto-complete-1.4")
+;;(require 'auto-complete-config)
+;;(add-to-list 'ac-dictionary-directories "~/.emacs.d/elpa/auto-complete-1.4/dict")
+
+
+;; (setq-default ac-sources '(ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
+;;(add-hook 'emacs-lisp-mode-hook 'ac-emacs-lisp-mode-setup)
+;;(add-hook 'c-mode-common-hook 'ac-cc-mode-setup)
+;;(add-hook 'objc-mode-hook 'ac-cc-mode-setup)
+;;(add-hook 'ruby-mode-hook 'ac-ruby-mode-setup)
+;;(add-hook 'css-mode-hook 'ac-css-mode-setup)
+;;(add-hook 'auto-complete-mode-hook 'ac-common-setup)
+;;(global-auto-complete-mode t)
+
+
+;;(setq-default ac-sources '(ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
+;;(add-hook 'emacs-lisp-mode-hook 'ac-emacs-lisp-mode-setup)
+;;(add-hook 'c-mode-common-hook 'ac-cc-mode-setup)
+;;(add-hook 'ruby-mode-hook 'ac-ruby-mode-setup)
+;;(add-hook 'css-mode-hook 'ac-css-mode-setup)
+;;(add-hook 'auto-complete-mode-hook 'ac-common-setup)
+;;(global-auto-complete-mode t)
+;;''(add-to-list 'ac-modes 'objc-mode)
+
